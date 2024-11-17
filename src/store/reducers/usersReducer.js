@@ -1,11 +1,11 @@
 import { createReducer } from "@reduxjs/toolkit"
-import { clearUsers, createUser, searchUsers, usersSet } from "../actions/actionUsersAll"
+import { clearCreate, clearUsers, createUser, searchUsers, usersSet } from "../actions/actionUsersAll"
 
 const initialState= {
     users:[],
-    createUser: false,
+    createUs: false,
     createLoding: false,
-    createError: "",
+    createError: false,
     loading: true,
     error:"",
     searchUs:""
@@ -34,21 +34,20 @@ const usersReducer = createReducer(initialState, (builder)=>{
         state.users = []
     })
     .addCase(createUser.pending, (state, action)=>{
-        console.log("entro a el envio");
-        
         state.createLoding = true
     })
     .addCase(createUser.fulfilled, (state, action)=>{
-        console.log("se completo la subida");
-        
         state.createLoding = false
-        state.createUser = true
+        state.createUs = true
     })
     .addCase(createUser.rejected, (state, action)=>{
-        console.log("hubo un error", action.payload);
-        
         state.createLoding = false
-        state.createError = action.payload
+        state.createError = true
+    })
+    .addCase(clearCreate, (state, action)=>{
+        state.createError = false
+        state.createLoding = false
+        state.createUs = false
     })
 })
 

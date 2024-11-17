@@ -27,5 +27,6 @@ const createUser = createAsyncThunk("USER_CREATE", async ({nombre, email, contra
     
 })
 const searchUsers = createAction("SEARCH_USERS")
+const clearCreate = createAction("CLEAR_CREATE")
 const clearUsers = createAction("CLEAR_USERS")
-export {usersSet, searchUsers, clearUsers, createUser}
+export {usersSet, searchUsers, clearUsers, createUser, clearCreate}
