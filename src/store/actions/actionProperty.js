@@ -1,14 +1,17 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+
 
 const setProperties = createAsyncThunk("SET_PROPERTIES", async ({token, search}) => {
     if (search != "") {
         const properties = await axios.get(`http://localhost:8080/api/property/all?search=${search}`, {headers: {Authorization: `Bearer ${token}`}})
-        return properties.data
+        
+        return properties.data.allProperties
     }
     const properties = await axios.get("http://localhost:8080/api/property/all", {headers: {Authorization: `Bearer ${token}`}})
-
-    return properties.data
+    
+    console.log("entro",properties.data.allProperties);
+    return properties.data.allProperties
 })
 
 

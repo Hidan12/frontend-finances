@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { createProperty, setProperties, updateProperty , deleteProperty,  searchProperties, clearProperties } from "../actions/actionProperty";
+import { createProperty, setProperties, updateProperty, searchProperties , deleteProperty, clearProperties } from "../actions/actionProperty";
 
 const initialState = {
     properties: [],    
@@ -17,10 +17,12 @@ const initialState = {
 const reducerProperty = createReducer(initialState, (builder)=>{
     builder.addCase(setProperties.pending,(state, action)=>{
         state.loading = true
+        console.log("cargando");
+        
     })
     .addCase(setProperties.fulfilled, (state, action)=>{
         state.loading = false
-        state.properties = action.payload.properties
+        state.properties = action.payload
         state.error = ""
     })
     .addCase(setProperties.rejected, (state, action)=>{

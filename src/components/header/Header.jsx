@@ -1,10 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usersSet } from "../../store/actions/actionUsersAll";
+import { setProperties } from "../../store/actions/actionProperty";
+
 
 const Header = ({ handlerBotton }) => {
   const { user, token } = useSelector((state) => state.loginReducer);
   const { searchUs } = useSelector((state) => state.usersReducer);
+  const { searchPro } = useSelector((state) => state.PropertyReducer);
 
   console.log(searchUs);
 
@@ -12,6 +15,7 @@ const Header = ({ handlerBotton }) => {
   useEffect(() => {
     if (token != "") {
       dispatch(usersSet({ token: token, search: "" }));
+      dispatch(setProperties({ token: token, search: "" }));
     }
   }, [token]);
 
@@ -21,6 +25,17 @@ const Header = ({ handlerBotton }) => {
     }
   }, [searchUs]);
 
+ 
+
+  useEffect(() => {
+    if (token != "") {
+      dispatch(setProperties({ token: token, search: searchPro }));
+    }
+  }, [searchPro]);
+
+  
+
+
   return (
     <div className="w-full h-[15vh] flex bg-black/90 justify-center gap-4 items-center">
       <div className="  w-full">
@@ -28,8 +43,6 @@ const Header = ({ handlerBotton }) => {
       </div>
       <div>
         <button className="text-white font-bold "
-          link
-          to="/Property"
         >
           Property
         </button>

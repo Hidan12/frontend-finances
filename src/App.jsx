@@ -6,6 +6,7 @@ import { loginUser, userLocal } from './store/actions/actionLoginr.js'
 import { Header } from './components/header/Header.jsx'
 import { ModalLogin } from './components/login/Login.jsx'
 import { Users } from './components/user/Users.jsx'
+import { Property } from './components/Property/Property.jsx'
 
 
 
@@ -41,6 +42,7 @@ function App() {
       <Header handlerBotton={handlerClick}/>
       {clickLogin ? <ModalLogin handlerClick={handlerClick}></ModalLogin> : ""}
       <Users></Users>
+      <Property></Property>
     </>
   )
 }
