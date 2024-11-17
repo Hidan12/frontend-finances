@@ -4,6 +4,7 @@ import { clearCreate, clearUsers, createUser, searchUsers, usersSet } from "../a
 const initialState= {
     users:[],
     createUs: false,
+    userLogin: {},
     createLoding: false,
     createError: false,
     loading: true,
@@ -38,6 +39,7 @@ const usersReducer = createReducer(initialState, (builder)=>{
     })
     .addCase(createUser.fulfilled, (state, action)=>{
         state.createLoding = false
+        state.userLogin = action.payload
         state.createUs = true
     })
     .addCase(createUser.rejected, (state, action)=>{

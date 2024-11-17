@@ -7,6 +7,7 @@ import { Header } from './components/header/Header.jsx'
 import { ModalLogin } from './components/login/Login.jsx'
 import { Users } from './components/user/Users.jsx'
 import { Property } from './components/Property/Property.jsx'
+import CreateUser from './components/user/createUser.jsx'
 
 
 
@@ -14,6 +15,7 @@ import { Property } from './components/Property/Property.jsx'
 
 function App() {
   const [clickLogin, setClickLogin] = useState(false)
+  const [clickCreateUser, setClickCreateUser] = useState(false)
   const {token, error, user} = useSelector(state => state.loginReducer)
   const {finances, loading} = useSelector(state => state.financeReducer)
 
@@ -36,11 +38,15 @@ function App() {
   const handlerClick = ()=>{
     setClickLogin(l => l = !l)
   }
+  const handlerClickCreateUser = ()=>{
+    setClickCreateUser(l => l = !l)
+  }
  
   return (
     <>
-      <Header handlerBotton={handlerClick}/>
+      <Header handlerBotton={handlerClick} handlerClickCreateUser={handlerClickCreateUser}/>
       {clickLogin ? <ModalLogin handlerClick={handlerClick}></ModalLogin> : ""}
+      {clickCreateUser ? <CreateUser handlerClickCreateUser={handlerClickCreateUser}></CreateUser> : ""}
       <Users></Users>
       <Property></Property>
     </>

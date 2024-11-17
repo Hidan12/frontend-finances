@@ -2,14 +2,16 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usersSet } from "../../store/actions/actionUsersAll";
 import { setProperties } from "../../store/actions/actionProperty";
+// import CreateUser from "../user/CreateUser";
 
 
-const Header = ({ handlerBotton }) => {
+const Header = ({ handlerBotton, handlerClickCreateUser }) => {
   const { user, token } = useSelector((state) => state.loginReducer);
   const { searchUs } = useSelector((state) => state.usersReducer);
   const { searchPro } = useSelector((state) => state.PropertyReducer);
 
   console.log(searchUs);
+
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -33,7 +35,9 @@ const Header = ({ handlerBotton }) => {
     }
   }, [searchPro]);
 
-  
+  const handlerCreateModal = ()=>{
+    dispatch(clearCreate())
+}
 
 
   return (
@@ -66,13 +70,18 @@ const Header = ({ handlerBotton }) => {
             {user.name}
           </button>
         ) : (
+          <div>
+            <button onClick={()=>handlerClickCreateUser()}>
+          <p className=" text-white ">Crear Cuenta</p>
+            </button>
           <button
             onClick={handlerBotton}
             className="text-white m-4 p-2 bg-black"
           >
             Login
           </button>
-        )}
+        </div>)
+        }
       </div>
     </div>
   );
