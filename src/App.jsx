@@ -21,11 +21,13 @@ function App() {
 
   useEffect(()=>{
     const localUser = localStorage.getItem('dataUser')
-  if (localUser.user) {
-    console.log(JSON.parse(localUser));
-    
-    dispatch(userLocal(JSON.parse(localUser)))
-  }
+    if (localUser !== null) {
+      try {
+        const dataUser = JSON.parse(localUser);
+        dispatch(userLocal(dataUser));
+      } catch (error) {
+        console.error(error);
+      }}
   },[])
     
   
