@@ -1,9 +1,15 @@
 import { createReducer } from "@reduxjs/toolkit"
-import { clearCreate, clearUsers, createUser, searchUsers, usersSet } from "../actions/actionUsersAll"
+import { clearCreate, clearUsers, createUser, deleteUser, searchUsers, updateUser, usersSet } from "../actions/actionUsersAll"
 
 const initialState= {
     users:[],
+    deleteUser: false,
+    deleteLoadin:false,
+    deleteError:false,
     createUs: false,
+    updateUs: false,
+    updateLoadin: false,
+    updateError: false,
     userLogin: {},
     createLoding: false,
     createError: false,
@@ -51,6 +57,31 @@ const usersReducer = createReducer(initialState, (builder)=>{
         state.createLoding = false
         state.createUs = false
     })
+    .addCase(updateUser.pending, (state, action)=>{
+        state.updateLoadin = true
+    })
+    .addCase(updateUser.fulfilled, (state, action)=>{
+        state.updateLoadin = false
+        state.updateUs = true
+        state.updateError = false
+    })
+    .addCase(updateUser.rejected, (state, action)=>{
+        state.updateLoadin = false
+        state.updateError = false
+    })
+    .addCase(deleteUser.pending, (state, action)=>{
+        state.deleteLoadin = true
+        state.deleteError = false
+    })
+    .addCase(deleteUser.fulfilled, (state, action)=>{
+        state.deleteLoadin = false
+        state.deleteUser = true
+    })
+    .addCase(deleteUser.rejected, (state, action)=>{
+        state.deleteLoadin = false
+        state.deleteError = true
+    })
 })
+
 
 export {usersReducer}

@@ -45,22 +45,7 @@ const Header = ({ handlerBotton, handlerClickCreateUser }) => {
       <div className="  w-full">
         <p className="text-white">Recuperacion</p>
       </div>
-      <div>
-        <button className="text-white font-bold "
-        >
-          Property
-        </button>
-        
-      </div>
-      <div>
-        <button className="text-white font-bold "
-          link
-          to="/finance"
-        >
-          Finance
-        </button>
-        
-      </div>
+      
       <div className="flex justify-end w-full">
         {user.name ? (
           <button

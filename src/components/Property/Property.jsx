@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { setProperties } from "../../store/actions/actionProperty.js"
+import { searchProperties, setProperties } from "../../store/actions/actionProperty.js"
 
 
 
@@ -20,7 +20,7 @@ const SearchProperty = ({handlerCreateModal})=>{
 
     return(
         <div className="w-full flex justify-center items-center gap-3 my-5">
-            <input type="text" onChange={(e)=> dispatch(setProperties(e.target.value))} className="w-[25%] p-2 rounded-xl border border-solid border-blue-500" placeholder="Buscar por nombre" />
+            <input type="text" onChange={(e)=> dispatch(searchProperties(e.target.value))} className="w-[25%] p-2 rounded-xl border border-solid border-blue-500" placeholder="Buscar por nombre" />
             <button onClick={()=>handlerCreateModal()} className="bg-blue-500 hover:bg-blue-800 p-2 rounded-xl text-white">Crear Propiedad</button>
         </div>
     )
