@@ -2,16 +2,34 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFinances } from './store/actions/actionFinances.js'
-import { loginUser } from './store/actions/actionLoginr.js'
+import { loginUser, userLocal } from './store/actions/actionLoginr.js'
 import { Header } from './components/header/Header.jsx'
 import { ModalLogin } from './components/login/Login.jsx'
 import { Users } from './components/user/Users.jsx'
+
+
+
+
 
 function App() {
   const [clickLogin, setClickLogin] = useState(false)
   const {token, error, user} = useSelector(state => state.loginReducer)
   const {finances, loading} = useSelector(state => state.financeReducer)
 
+  const dispatch = useDispatch()
+
+
+  useEffect(()=>{
+    const localUser = localStorage.getItem('dataUser')
+  if (localUser.user) {
+    console.log(JSON.parse(localUser));
+    
+    dispatch(userLocal(JSON.parse(localUser)))
+  }
+  },[])
+    
+  
+  
   const handlerClick = ()=>{
     setClickLogin(l => l = !l)
   }

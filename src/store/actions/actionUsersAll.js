@@ -1,6 +1,8 @@
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
+
+
 const usersSet = createAsyncThunk("USERS_SET", async ({token, search})=>{
     if (search != "") {
         const users = await axios.get(`http://localhost:8080/api/users/all?search=${search}`, {headers: {Authorization: `Bearer ${token}`}})

@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { loginUser, logOut } from "../actions/actionLoginr.js";
+import { loginUser, logOut, userLocal } from "../actions/actionLoginr.js";
 
 const initalState = {
     user: {},
@@ -12,10 +12,15 @@ const reducerUser = createReducer(initalState, (builder)=>{
     builder.addCase(loginUser.pending, (state, action)=>{
         state.loading = true
     })
+    .addCase(userLocal, (state, action)=>{
+        state.user = action.payload.user
+        state.token = action.payload.token
+    })
     .addCase(loginUser.fulfilled, (state, action)=>{
         state.user = action.payload.user
         state.token = action.payload.token
         state.loading = false
+        localStorage.setItem('dataUser', JSON.stringify({user:action.payload.user, token:action.payload.token}))
     })
     .addCase(loginUser.rejected, (state, action)=>{
         state.loading = false
@@ -30,6 +35,7 @@ const reducerUser = createReducer(initalState, (builder)=>{
         state.loading = false
         state.user = {}
         state.token = ""
+        localStorage.setItem('dataUser', JSON.stringify())
     })
     .addCase(logOut.rejected, (state, action)=>{
         state.loading = false

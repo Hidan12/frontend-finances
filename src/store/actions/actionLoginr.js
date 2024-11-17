@@ -1,7 +1,7 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-
+const userLocal = createAction("USER_LOCAL")
 const loginUser = createAsyncThunk("LOGIN_USER", async (user)=>{
     const userLogin = await axios.post('http://localhost:8080/api/login/signIn', user)
     return userLogin.data
@@ -12,4 +12,4 @@ const logOut = createAsyncThunk("LOGOUT_USER", async(user)=>{
     return userLogOut.data
 })
 
-export{loginUser, logOut}
+export{loginUser, logOut, userLocal}
