@@ -23,9 +23,9 @@ const ModalsignIn = ({handlerClick})=>{
     return(
         <div className="absolute w-full h-full flex justify-center">
             <div className="relative top-16 flex flex-col justify-between w-[35vw] h-[35vh] rounded-2xl bg-slate-300">
-                <div className="w-full flex justify-center">
+                <div className="w-full grid grid-cols-2 justify-items-end">
                     <p className="text-black font-bold text-xl">Login</p>
-                    <button onClick={()=> handlerClick()} className="ms-14 font-bold text-xl text-red-500 hover:text-red-600">x</button>
+                    <button onClick={()=> handlerClick()} className="me-4 font-bold text-xl text-red-500 hover:text-red-600">x</button>
                 </div>
                 <div className="w-full flex justify-center">
                     <input className="w-[80%]" type="email" onChange={(e)=> handlerMail(e)} />
