@@ -38,7 +38,7 @@ const createFinance = createAsyncThunk("FINANCE_CREATE", async ({fecha, descripc
     return createU.data   
     
 })
-const deleteFinances = createAsyncThunk("DELETE_USER", async({finance, token})=>{
+const deleteFinances = createAsyncThunk("DELETE_FINANCE", async({finance, token})=>{
     const id = {...finance._id}
     
 

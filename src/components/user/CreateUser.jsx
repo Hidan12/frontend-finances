@@ -36,7 +36,6 @@ const CreateUser = ({ handlerClickCreateUser }) => {
     useEffect(()=>{
         if (user  && !loading && !error) {
             handlerClickCreateUser()
-           
         }
     },[user, loading])
 

@@ -6,7 +6,7 @@ const RowTable = ({finance, handlerupdateUs, handlerIdDelete})=>{
     return(
         <div className=" w-full grid grid-cols-5">
                 <div className="flex flex-col items-center justify-center border-x h-[9vh] ">
-                    <p className="font-bold text-black">{finance.user.name}</p>
+                    <p className="font-bold text-black">{finance.user ? finance.user.name : "usuario borrado"}</p>
                     <div className="flex items-center justify-center gap-5  h-[9vh]">
                         <button className="text-red-500 hover:text-red-700" onClick={()=>handlerIdDelete(finance)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
@@ -40,7 +40,7 @@ const SearchFinance = ({handlerCreateModal})=>{
 }
 const TableFinance = ({handlerCreateModal, handlerupdateUs})=>{
     const {token, user} = useSelector(state => state.loginReducer)
-    const{finances, loading, error, deleteLoadin}= useSelector(state => state.financeReducer)
+    const{finances, loading, error, deleteLoadin, searchFin}= useSelector(state => state.financeReducer)
     const [clickDelete, setClickDelete] = useState(false)
     const [idDelete, setIdDelete] = useState({})
     const dispatch = useDispatch()
@@ -54,9 +54,9 @@ const TableFinance = ({handlerCreateModal, handlerupdateUs})=>{
     }
     useEffect(()=>{
         if (!deleteLoadin && idDelete._id) {
-            dispatch(financeSet({token: token, search:""}))
+            dispatch(financeSet({token: token, search: searchFin}))
             setClickDelete(c => c =!c)
-            setIdDelete({})
+            setIdDelete(s => s = {})
             }
         if (idDelete._id) {
             dispatch(deleteFinances({user:{_id: idDelete}, token:token }))
@@ -123,8 +123,6 @@ const EditFinance = ({handlerClicUpdate, data})=>{
 
     useEffect(()=>{
         if (updateFin) {
-            console.log("ENTRO AL UPDATE USEE");
-            
             dispatch(financeSet({token: token, search: searchFin}))
             handlerClicUpdate()
         }else if(!updateLoadin && updateError){

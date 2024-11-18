@@ -244,8 +244,6 @@ const Users = ()=>{
         setClick(c => c = !c)
     }
     const handlerupdateUs = (info)=>{
-        console.log(info, "handler");
-        
         setUpdateUser(us => us = info)
         setClickUpdate(u => u = !u)
     }

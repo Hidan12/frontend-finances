@@ -16,18 +16,20 @@ import { Finance } from './components/finance/finance.jsx'
 function App() {
   const [clickLogin, setClickLogin] = useState(false)
   const [clickCreateUser, setClickCreateUser] = useState(false)
-  const {token, error, user} = useSelector(state => state.loginReducer)
-  const {finances, loading} = useSelector(state => state.financeReducer)
-
   const dispatch = useDispatch()
 
 
   useEffect(()=>{
     const localUser = localStorage.getItem('dataUser')
-    if (localUser !== null) {
+    if (localUser !== null ) {
       try {
-        const dataUser = JSON.parse(localUser);
-        dispatch(userLocal(dataUser));
+        console.log(JSON.parse(localUser));
+        
+        if (JSON.parse(localUser) != undefined) {
+          const dataUser = JSON.parse(localUser);
+          dispatch(userLocal(dataUser));
+          
+        }
       } catch (error) {
         console.error(error);
       }}
