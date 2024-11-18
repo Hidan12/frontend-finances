@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { usersSet } from "../../store/actions/actionUsersAll";
 import { setProperties } from "../../store/actions/actionProperty";
+import { financeSet } from "../../store/actions/actionFinances";
 // import CreateUser from "../user/CreateUser";
 
 
@@ -9,25 +10,30 @@ const Header = ({ handlerBotton, handlerClickCreateUser }) => {
   const { user, token } = useSelector((state) => state.loginReducer);
   const { searchUs } = useSelector((state) => state.usersReducer);
   const { searchPro } = useSelector((state) => state.PropertyReducer);
-
-  console.log(searchUs);
-
+  const { searchFin } = useSelector(state => state.financeReducer)
 
   const dispatch = useDispatch();
   useEffect(() => {
     if (token != "") {
       dispatch(usersSet({ token: token, search: "" }));
       dispatch(setProperties({ token: token, search: "" }));
+      dispatch(financeSet({ token: token, search: "" }))
     }
   }, [token]);
 
   useEffect(() => {
     if (token != "") {
+      console.log(searchUs);
+      
       dispatch(usersSet({ token: token, search: searchUs }));
     }
   }, [searchUs]);
 
- 
+ useEffect(()=>{
+  if (token != "") {
+    dispatch(financeSet({ token: token, search: searchFin }));
+  }
+ },[searchFin])
 
   useEffect(() => {
     if (token != "") {

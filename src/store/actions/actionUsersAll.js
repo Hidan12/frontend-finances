@@ -2,8 +2,9 @@ import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
 import axios from "axios"
 
 
-const updateUser = createAsyncThunk("UPDATE_USER", async({nombre, email, contrasenia, direccion, telefono, token})=>{
+const updateUser = createAsyncThunk("UPDATE_USER", async({nombre, email, contrasenia, direccion, telefono, id, token})=>{
     const user = {
+        _id:id,
         name: nombre,
         mail: email,
         typeUser: 3,
@@ -11,7 +12,8 @@ const updateUser = createAsyncThunk("UPDATE_USER", async({nombre, email, contras
         phone: telefono,
         password: contrasenia,
     }
-    const createU = await axios.put("http://localhost:8080/api/users/update", user, {headers: {Authorization: `Bearer ${token}`}})
+    
+    const createU = await axios.put("http://localhost:8080/api/users/update",user, {headers: {Authorization: `Bearer ${token}`}})
     return createU.data
 })
 

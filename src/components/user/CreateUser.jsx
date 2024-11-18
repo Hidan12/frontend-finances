@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createUser, usersSet } from '../../store/actions/actionUsersAll';
-import { userLocal } from '../../store/actions/actionLoginr';
+import { createAndLogin, userLocal } from '../../store/actions/actionLoginr';
 
-const CreateUser = ({ handlerCreateModal }) => {
-    const {token} = useSelector(state => state.loginReducer)
-    const {createUs, createError, createLoding} = useSelector(state => state.usersReducer)
+const CreateUser = ({ handlerClickCreateUser }) => {
+    const {token, user, loading, error} = useSelector(state => state.loginReducer)
+    const {} = useSelector(state => state.loginReducer)
     const dispatch = useDispatch()
-    const [error, setError] = useState(false)
     const [nombre, setNombre] = useState("")
     const [email, setEmail] = useState("")
     const [Contrasenia, setContrasenia] = useState("")
@@ -30,19 +29,16 @@ const CreateUser = ({ handlerCreateModal }) => {
     }
     const handlerCreate = (e, token)=>{
         e.preventDefault()
-        dispatch(createUser({nombre:nombre, email:email, contrasenia: Contrasenia, direccion:direccion, telefono:telefono, token:token}))
+        dispatch(createAndLogin({nombre:nombre, email:email, contrasenia: Contrasenia, direccion:direccion, telefono:telefono, token:token}))
     }
     
     
     useEffect(()=>{
-        if (createUs) {
-            dispatch(userLocal({user:createUs.user, token:createUs.token}))
-            handlerCreateModal()
+        if (user  && !loading && !error) {
+            handlerClickCreateUser()
            
-        }else if(!createLoding && createError){
-            setError(e => e = !e)
         }
-    },[createUs, createError])
+    },[user, loading])
 
 
     return(
@@ -50,7 +46,7 @@ const CreateUser = ({ handlerCreateModal }) => {
             <div className="sticky w-[40%] flex flex-col justify-center items-center rounded-xl top-0 bg-slate-400">
                 <div className="w-full grid grid-cols-2 justify-items-end">
                     <p className="font-bold text-xl">Crear usuarios</p>
-                    <button onClick={()=> handlerCreateModal()} className=" me-5 font-bold text-2xl text-red-600 hover:text-red-700" >X</button>
+                    <button onClick={()=> handlerClickCreateUser()} className=" me-5 font-bold text-2xl text-red-600 hover:text-red-700" >X</button>
                 </div>
                 <div className="w-[60%]">
                     <input type="text" className="w-full my-4" onChange={(e)=> handlerNombre(e.target.value)} placeholder="Nombre" required />

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { clearCreate, createUser, deleteUser, searchUsers, updateUser, usersSet } from "../../store/actions/actionUsersAll"
+import { clearLogin } from "../../store/actions/actionLoginr"
 
 const RowTable = ({user, handlerupdateUs, handlerIdDelete})=>{
     return(
@@ -39,7 +40,7 @@ const SearchUser = ({handlerCreateModal})=>{
     )
 }
 const TableUser = ({handlerCreateModal, handlerupdateUs})=>{
-    const {token} = useSelector(state => state.loginReducer)
+    const {token, user} = useSelector(state => state.loginReducer)
     const{users, loading, error, deleteLoadin}= useSelector(state => state.usersReducer)
     const [clickDelete, setClickDelete] = useState(false)
     const [idDelete, setIdDelete] = useState({})
@@ -59,6 +60,9 @@ const TableUser = ({handlerCreateModal, handlerupdateUs})=>{
             setIdDelete({})
             }
         if (idDelete._id) {
+            if (idDelete._id == user._id) {
+                dispatch(clearLogin())
+            }
         dispatch(deleteUser({user:{_id: idDelete}, token:token }))
     }
     
@@ -81,7 +85,7 @@ const TableUser = ({handlerCreateModal, handlerupdateUs})=>{
                     <div className="flex items-center justify-center border-x bg-slate-300"><p className="font-bold text-black">online</p></div>
                     <div className="flex items-center justify-center border-x bg-slate-300"><p className="font-bold text-black">telefono</p></div>
                 </div>
-                {!loading && users ? users.map(user => <RowTable key={user._id} handlerIdDelete={handlerIdDelete} handlerupdateUs={handlerupdateUs} user={user}/>) : "" }
+                {!loading && users.length > 0 ? users.map(user => <RowTable key={user._id} handlerIdDelete={handlerIdDelete} handlerupdateUs={handlerupdateUs} user={user}/>) : <p className="text-center font-bold text-2xl text-black my-[5vh]">No hay datos disponible</p> }
                 {loading ? <p>cargando informacion</p>: ""}
             </div>
         </div>
@@ -92,6 +96,7 @@ const TableUser = ({handlerCreateModal, handlerupdateUs})=>{
 }
 
 const EditUser = ({handlerClicUpdate, data})=>{
+    const dispatch = useDispatch()
     const {token} = useSelector(state => state.loginReducer)
     const {updateUs, updateLoadin, updateError} = useSelector(state => state.usersReducer)
     const [error, setError] = useState(false)
@@ -117,18 +122,17 @@ const EditUser = ({handlerClicUpdate, data})=>{
     }
     const handlerCreate = (e, token)=>{
         e.preventDefault()
-        dispatch(updateUser({nombre:nombre, email:email, contrasenia: Contrasenia, direccion:direccion, telefono:telefono, token:token}))
+        dispatch(updateUser({id:data._id, nombre:nombre, email:email, contrasenia: Contrasenia, direccion:direccion, telefono:telefono, token:token}))
     }
-    console.log(data);
     
     useEffect(()=>{
-        if (updateUs) {
+        if (updateUs && !updateLoadin && !updateError) {
             dispatch(usersSet({token: token, search:""}))
             handlerClicUpdate()
         }else if(!updateLoadin && updateError){
             setError(e => e = !e)
         }
-    },[updateError, updateError])
+    },[updateUs, updateError])
 
     return(
         <div className="absolute top-32 w-full flex justify-center">
@@ -152,8 +156,8 @@ const EditUser = ({handlerClicUpdate, data})=>{
                 <div className="w-[60%]">
                     <input type="text" className="w-full my-4" value={direccion} placeholder="Direccion" onChange={(e)=> handlerDireccion(e.target.value)} required/>
                 </div>
-                {error ? <p className="text-red-500 text-center font-semibold">Error al crear usuario</p>:""}
-                <button onClick={(e)=> handlerCreate(e, token)} className="p-2 rounded-xl bg-blue-500 hover:bg-blue-700 text-white">Crear usuario</button>
+                {error ? <p className="text-red-500 text-center font-semibold">Error al editar usuario</p>:""}
+                <button onClick={(e)=> handlerCreate(e, token)} className="p-2 rounded-xl bg-blue-500 hover:bg-blue-700 text-white">Editar usuario</button>
             </div>
 
         </div>

@@ -1,30 +1,54 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit"
+import axios from "axios"
 
-let config = {
-  method: '',
-  maxBodyLength: Infinity,
-  url: '',
-  headers: { 
-    'Authorization': ''
-  }
-};
 
-const setFinances = createAsyncThunk("SET_FINANCE", async (token) => {
-  config.url = "http://localhost:8080/api/finance/all"
-  config.method = "get"
-  config.headers.Authorization = `Bearer ${token}`;
-  
-  try {
-    const response = await axios(config);
-    return response.data.finances;
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      // Manejo específico para el estado 401
-      return {status:401};
+const updateFinance = createAsyncThunk("UPDATE_FINANCE", async({fecha, descripcion, valor, user, id, token})=>{
+    const finance = {
+        _id:id,
+        date: fecha,
+        description: descripcion,
+        value: valor,
+        active: valor >= 0 ? true:false,
+        user: user,
     }
-    return error.response ? error.response.data : error.message
-  }
-});
+    
+    const updateFinan = await axios.put("http://localhost:8080/api/finance/update",finance, {headers: {Authorization: `Bearer ${token}`}})
+    return updateFinan.data
+})
 
-export {setFinances}
+const financeSet = createAsyncThunk("FINANCE_SET", async ({token, search})=>{
+    if (search != "") {
+        const users = await axios.get(`http://localhost:8080/api/finance/all?search=${search}`, {headers: {Authorization: `Bearer ${token}`}})
+        return users.data
+    }
+    const users = await axios.get("http://localhost:8080/api/finance/all", {headers: {Authorization: `Bearer ${token}`}})
+    return users.data
+})
+const createFinance = createAsyncThunk("FINANCE_CREATE", async ({fecha, descripcion, valor, user, id, token})=>{
+    
+  const finance = {
+    _id:id,
+    date: fecha,
+    description: descripcion,
+    value: valor,
+    active: valor >= 0 ? true:false,
+    user: user,
+}
+    const createU = await axios.post("http://localhost:8080/api/finance/create", finance, {headers: {Authorization: `Bearer ${token}`}})
+    return createU.data   
+    
+})
+const deleteFinances = createAsyncThunk("DELETE_USER", async({finance, token})=>{
+    const id = {...finance._id}
+    
+
+    const createU = await axios.delete("http://localhost:8080/api/finance/delete", {
+        data: id,
+        headers: {Authorization: `Bearer ${token}`}
+    })
+    return createU.data  
+})
+const searchFinance = createAction("SEARCH_FINANCE")
+const clearCreateFinance = createAction("CLEAR_CREATE_FINANCE")
+const clearFinance = createAction("CLEAR_FINANCE")
+export {updateFinance, financeSet, createFinance, deleteFinances, searchFinance, clearCreateFinance, clearFinance}

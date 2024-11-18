@@ -1,77 +1,86 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { createProperty, setProperties, updateProperty, searchProperties , deleteProperty, clearProperties } from "../actions/actionProperty";
+import { createProperty, setProperties, updateProperty, searchProperties , deleteProperty, clearProperties, clearCreateProperty } from "../actions/actionProperty";
 
 const initialState = {
     properties: [],    
-    createProperty: false, 
-    updateProperty: false,
-    deleteProperty: false,
-    createLoding: false,
-    createError: "",  
     loading: true,
-    error: "",
-    searchPro: ""
+    error: false,
+    searchPro: "",
+    updatePro: false,
+    updateLoadin: false,
+    updateError: false,
+    createPro: false, 
+    createLoding: false,
+    createError: false,  
+    deleteProperty: false,
+    deleteLoadin:false,
+    deleteError:false
    
 }
 
 const reducerProperty = createReducer(initialState, (builder)=>{
     builder.addCase(setProperties.pending,(state, action)=>{
         state.loading = true
-        console.log("cargando");
-        
     })
     .addCase(setProperties.fulfilled, (state, action)=>{
         state.loading = false
         state.properties = action.payload
-        state.error = ""
+        state.error = false
     })
     .addCase(setProperties.rejected, (state, action)=>{
         state.loading = false
         state.properties = []
-        state.error = action.payload.error
+        state.error = true
     })
     .addCase(createProperty.pending, (state, action)=>{
         state.createLoding = true
     })
     .addCase(createProperty.fulfilled, (state, action)=>{
         state.createLoding = false
-        state.createProperty = true
-        state.createError = ""
+        state.createPro = true
+        state.createError = false
     })
     .addCase(createProperty.rejected, (state, action)=>{
         state.createLoding = false
-        state.createProperty = false
-        state.createError = action.payload.error
+        state.createPro = false
+        state.createError = true
+    })
+    .addCase(clearCreateProperty, (state, action)=>{
+        state.createLoding = false
+        state.createPro = false
+        state.createError = false
     })
     .addCase(searchProperties, (state, action)=>{
         state.searchPro = action.payload
     })
     .addCase(clearProperties, (state, action)=>{
-        state.error = ""
+        state.error = false
         state.searchPro = ""
         state.properties = []
     })
     .addCase(updateProperty.pending, (state, action)=>{
-        state.updateProperty = true
+        state.updateLoadin = true
     })
     .addCase(updateProperty.fulfilled, (state, action)=>{
-        state.updateProperty = false
-        state.updateError = ""
+        state.updatePro = true
+        state.updateLoadin = false
+        state.updateError = false
     })
     .addCase(updateProperty.rejected, (state, action)=>{
-        state.updateProperty = false
-        state.updateError = action.payload.error
+        state.updateLoadin = false
+        state.updateError = true
     })
     .addCase(deleteProperty.pending, (state, action)=>{
-        state.deleteProperty = true
+        state.deleteLoadin = true
     })
     .addCase(deleteProperty.fulfilled, (state, action)=>{
-        state.deleteProperty = false
-        state.deleteError = ""
+        state.deleteProperty = true
+        state.deleteLoadin = false
+        state.deleteError = true
     })
     .addCase(deleteProperty.rejected, (state, action)=>{
         state.deleteProperty = false
-        state.deleteError = action.payload.error    
+        state.deleteError = true    
         
     })
 })

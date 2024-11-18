@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { setFinances } from './store/actions/actionFinances.js'
 import { loginUser, userLocal } from './store/actions/actionLoginr.js'
 import { Header } from './components/header/Header.jsx'
 import { ModalLogin } from './components/login/Login.jsx'
 import { Users } from './components/user/Users.jsx'
 import { Property } from './components/Property/Property.jsx'
 import CreateUser from './components/user/createUser.jsx'
+import { Finance } from './components/finance/finance.jsx'
 
 
 
@@ -49,6 +49,7 @@ function App() {
       {clickCreateUser ? <CreateUser handlerClickCreateUser={handlerClickCreateUser}></CreateUser> : ""}
       <Users></Users>
       <Property></Property>
+      <Finance></Finance>
     </>
   )
 }
