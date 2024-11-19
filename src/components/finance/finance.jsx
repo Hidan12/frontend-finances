@@ -63,13 +63,13 @@ const TableFinance = ({handlerCreateModal, handlerupdateUs})=>{
             
         if (idDelete._id && !deleteFin ) {
             console.log("entro al 2 if");
-            dispatch(deleteFinance({user: {_id: idDelete}, token:token }))
+            dispatch(deleteFinance({finance: {_id: idDelete}, token:token }))
             
             console.log("saliendo de if");
         
         }
     
-    },[clickDelete, deleteFin])
+    },[clickDelete, deleteLoadin])
     if (error.error) {
         return(
             <div>
