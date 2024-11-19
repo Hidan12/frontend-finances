@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { clearCreateFinance, createFinance, deleteFinances, financeSet, searchFinance, updateFinance } from "../../store/actions/actionFinances"
+import { clearCreateFinance, createFinance, deleteFinance, financeSet, searchFinance, updateFinance } from "../../store/actions/actionFinances"
 
 const RowTable = ({finance, handlerupdateUs, handlerIdDelete})=>{
     return(
@@ -8,7 +8,7 @@ const RowTable = ({finance, handlerupdateUs, handlerIdDelete})=>{
                 <div className="flex flex-col items-center justify-center border-x h-[9vh] ">
                     <p className="font-bold text-black">{finance.user ? finance.user.name : "usuario borrado"}</p>
                     <div className="flex items-center justify-center gap-5  h-[9vh]">
-                        <button className="text-red-500 hover:text-red-700" onClick={()=>handlerIdDelete(finance)}>
+                        <button className="text-red-500 hover:text-red-700" onClick={()=> handlerIdDelete(finance)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
                                 <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5"/>
                             </svg>
@@ -40,7 +40,7 @@ const SearchFinance = ({handlerCreateModal})=>{
 }
 const TableFinance = ({handlerCreateModal, handlerupdateUs})=>{
     const {token, user} = useSelector(state => state.loginReducer)
-    const{finances, loading, error, deleteLoadin, searchFin}= useSelector(state => state.financeReducer)
+    const{finances, loading, error, deleteFin, deleteLoadin, searchFin}= useSelector(state => state.financeReducer)
     const [clickDelete, setClickDelete] = useState(false)
     const [idDelete, setIdDelete] = useState({})
     const dispatch = useDispatch()
@@ -53,16 +53,23 @@ const TableFinance = ({handlerCreateModal, handlerupdateUs})=>{
         handlerClick()
     }
     useEffect(()=>{
-        if (!deleteLoadin && idDelete._id) {
-            dispatch(financeSet({token: token, search: searchFin}))
-            setClickDelete(c => c =!c)
-            setIdDelete(s => s = {})
+        if (!deleteLoadin && idDelete._id && deleteFin) {
+            console.log("entro al 1 if");
+            setIdDelete(i => i = {})
+            dispatch(financeSet({token: token, search:searchFin}))
+            setClickDelete(c => c = !c)
             }
-        if (idDelete._id) {
-            dispatch(deleteFinances({user:{_id: idDelete}, token:token }))
+            console.log("entro al useee");
+            
+        if (idDelete._id && !deleteFin ) {
+            console.log("entro al 2 if");
+            dispatch(deleteFinance({user: {_id: idDelete}, token:token }))
+            
+            console.log("saliendo de if");
+        
         }
     
-    },[idDelete, deleteLoadin])
+    },[clickDelete, deleteFin])
     if (error.error) {
         return(
             <div>

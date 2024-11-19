@@ -38,17 +38,24 @@ const createFinance = createAsyncThunk("FINANCE_CREATE", async ({fecha, descripc
     return createU.data   
     
 })
-const deleteFinances = createAsyncThunk("DELETE_FINANCE", async({finance, token})=>{
+const deleteFinance = createAsyncThunk("DELETE_FINANCES", async ({finance, token})=>{
     const id = {...finance._id}
-    
+    console.log("entro al delete action");
 
-    const createU = await axios.delete("http://localhost:8080/api/finance/delete", {
-        data: id,
-        headers: {Authorization: `Bearer ${token}`}
-    })
-    return createU.data  
+    try {
+        const delet = await axios.delete("http://localhost:8080/api/finance/delete", {
+            data: id,
+            headers: {Authorization: `Bearer ${token}`}
+        })
+        return delet.data
+        
+    } catch (error) {
+        console.log(error, "error");
+        
+        return error
+    }
 })
 const searchFinance = createAction("SEARCH_FINANCE")
 const clearCreateFinance = createAction("CLEAR_CREATE_FINANCE")
 const clearFinance = createAction("CLEAR_FINANCE")
-export {updateFinance, financeSet, createFinance, deleteFinances, searchFinance, clearCreateFinance, clearFinance}
+export {updateFinance, financeSet, createFinance, deleteFinance, searchFinance, clearCreateFinance, clearFinance}

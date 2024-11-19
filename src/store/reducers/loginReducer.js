@@ -35,7 +35,7 @@ const reducerUser = createReducer(initalState, (builder)=>{
         state.loading = false
         state.user = {}
         state.token = ""
-        localStorage.setItem('dataUser', JSON.stringify())
+        localStorage.removeItem('dataUser')
     })
     .addCase(logOut.rejected, (state, action)=>{
         state.loading = false

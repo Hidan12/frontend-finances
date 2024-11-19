@@ -1,9 +1,9 @@
 import { createReducer } from "@reduxjs/toolkit"
-import { clearCreateFinance, clearFinance, createFinance, deleteFinances, financeSet, searchFinance, updateFinance } from "../actions/actionFinances"
+import { clearCreateFinance, clearFinance, createFinance, deleteFinance, financeSet, searchFinance, updateFinance } from "../actions/actionFinances"
 
 const initialState= {
     finances:[],
-    deleteFinances: false,
+    deleteFin: false,
     deleteLoadin:false,
     deleteError:false,
     createFin: false,
@@ -68,15 +68,22 @@ const reducerFinances = createReducer(initialState, (builder)=>{
         state.updateLoadin = false
         state.updateError = true
     })
-    .addCase(deleteFinances.pending, (state, action)=>{
+    .addCase(deleteFinance.pending, (state, action)=>{
+        console.log("entroooooooooooo pending");
+        
         state.deleteLoadin = true
         state.deleteError = false
+        state.deleteFin = false
     })
-    .addCase(deleteFinances.fulfilled, (state, action)=>{
+    .addCase(deleteFinance.fulfilled, (state, action)=>{
+        console.log("entrooooooooooooooooooooo al fullfie");
+        
         state.deleteLoadin = false
-        state.deleteUser = true
+        state.deleteFin = true
     })
-    .addCase(deleteFinances.rejected, (state, action)=>{
+    .addCase(deleteFinance.rejected, (state, action)=>{
+        console.log("entrooooooooooo al rejected", action.payload);
+        
         state.deleteLoadin = false
         state.deleteError = true
     })
